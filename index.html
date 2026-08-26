@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JhutPass — Every kilogram accounted for</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b1220'/%3E%3Ctext x='16' y='23' font-size='18' font-weight='800' font-family='Arial' text-anchor='middle' fill='%23f59e0b'%3EJ%3C/text%3E%3C/svg%3E">
+<meta name="description" content="JhutPass is trust infrastructure for Bangladesh's garment-waste economy: standardized grading, optimally-sited sorting hubs, and DPP-ready certificates.">
+<meta name="author" content="">
+<style>
+  :root{
+    --bg:#0b1220; --bg2:#0f172a; --card:#111c33; --line:#1e293b;
+    --txt:#e2e8f0; --mut:#94a3b8; --amber:#f59e0b; --amber2:#b45309;
+    --blue:#3b82f6; --green:#10b981; --red:#ef4444;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;line-height:1.6}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+  section{padding:72px 0}
+  h2{font-size:1.9rem;margin-bottom:.4em;letter-spacing:-.02em}
+  .kicker{color:var(--amber);font-weight:700;letter-spacing:.14em;font-size:.78rem;text-transform:uppercase}
+  .sub{color:var(--mut);max-width:760px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .grid{display:grid;gap:16px}
+  .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)} .g2{grid-template-columns:repeat(2,1fr)}
+  @media(max-width:860px){.g3,.g4{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}}
+  @media(max-width:560px){.g3,.g4{grid-template-columns:1fr}}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+  .logo{font-weight:800;font-size:1.15rem;letter-spacing:-.02em}
+  .logo span{color:var(--amber)}
+  nav a{color:var(--mut);text-decoration:none;font-size:.9rem;margin-left:18px}
+  nav a:hover{color:var(--txt)}
+  @media(max-width:700px){nav .links{display:none}}
+
+  /* hero */
+  header{padding:96px 0 72px;background:
+    radial-gradient(1200px 500px at 80% -10%, rgba(245,158,11,.12), transparent 60%),
+    radial-gradient(900px 400px at 10% 110%, rgba(59,130,246,.10), transparent 60%), var(--bg)}
+  h1{font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:1.08;letter-spacing:-.03em;margin:14px 0 18px}
+  h1 em{font-style:normal;color:var(--amber)}
+  .hero-sub{color:var(--mut);font-size:1.08rem;max-width:720px}
+  .cta{display:inline-block;margin-top:26px;background:var(--amber);color:#1c1204;font-weight:700;
+      padding:13px 26px;border-radius:10px;text-decoration:none}
+  .cta.ghost{background:transparent;color:var(--txt);border:1px solid var(--line);margin-left:12px}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:54px}
+  @media(max-width:860px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+  .stat b{font-size:1.55rem;display:block;letter-spacing:-.02em}
+  .stat span{color:var(--mut);font-size:.85rem}
+  .src{color:#64748b;font-size:.75rem;margin-top:8px}
+
+  /* flow */
+  .flow{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap;margin-top:26px}
+  .fnode{flex:1;min-width:150px;border-radius:12px;padding:14px;text-align:center;border:1px solid var(--line)}
+  .fnode b{display:block;font-size:1.25rem}
+  .fnode small{color:var(--mut)}
+  .f1{background:#1e293b}.f2{background:#312e1f;border-color:#7c5a12}.f3{background:#132a1e;border-color:#14532d}
+  .arrow{align-self:center;color:var(--mut);font-size:1.3rem}
+
+  /* layers */
+  .layer{display:flex;gap:16px;align-items:flex-start;padding:18px 0;border-bottom:1px dashed var(--line)}
+  .layer:last-child{border-bottom:none}
+  .lnum{background:var(--amber);color:#1c1204;font-weight:800;border-radius:8px;min-width:44px;height:44px;
+        display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+  .layer h3{margin-bottom:4px}
+  .layer p{color:var(--mut);font-size:.95rem}
+
+  /* demo */
+  .demo-panel{margin-top:26px}
+  label{display:block;font-size:.85rem;color:var(--mut);margin:12px 0 4px}
+  input[type=range]{width:100%;accent-color:var(--amber)}
+  .kv{display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:7px 0;font-size:.95rem}
+  .kv:last-child{border-bottom:none}
+  .kv b{font-variant-numeric:tabular-nums}
+  .pos{color:var(--green)} .neg{color:var(--red)}
+  .simout{margin-top:14px}
+  .bars{display:flex;align-items:flex-end;gap:18px;height:150px;margin-top:18px;padding:0 6px}
+  .barcol{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+  .bar{width:70%;border-radius:6px 6px 0 0;transition:height .4s}
+  .barlab{color:var(--mut);font-size:.75rem;margin-top:6px;text-align:center}
+
+  /* grades */
+  .grade{cursor:pointer;transition:transform .15s,border-color .15s}
+  .grade:hover{transform:translateY(-3px)}
+  .grade.sel{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber)}
+  .grade b.g{font-size:1.05rem}
+  .g1{color:#fbbf24}.g2{color:#a3e635}.g3{color:#38bdf8}.g4{color:#c084fc}.g5{color:#94a3b8}
+  .grade-detail{margin-top:14px;color:var(--mut);font-size:.92rem;min-height:48px}
+
+  /* certificate */
+  #certCanvas{width:100%;max-width:640px;border-radius:12px;border:1px solid var(--line);display:block;margin-top:14px}
+  .btn{background:var(--amber);color:#1c1204;font-weight:700;border:none;border-radius:9px;padding:10px 18px;cursor:pointer;font-size:.92rem}
+  .btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+  input[type=text],select{background:#0b1220;border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:9px 12px;width:100%;font-size:.95rem}
+
+  /* map */
+  #hubmap{width:100%;height:auto;display:block}
+  .maplegend{display:flex;gap:18px;color:var(--mut);font-size:.8rem;margin-top:8px;flex-wrap:wrap}
+  .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
+
+  /* tables */
+  table{width:100%;border-collapse:collapse;font-size:.92rem;margin-top:14px}
+  th{color:var(--mut);text-align:left;font-weight:600;border-bottom:1px solid var(--line);padding:8px 10px}
+  td{border-bottom:1px dashed var(--line);padding:8px 10px}
+  td.num{text-align:right;font-variant-numeric:tabular-nums}
+
+  footer{border-top:1px solid var(--line);padding:34px 0;color:#64748b;font-size:.85rem}
+  .foot-note{background:#132038;border:1px solid #1d3a63;border-radius:10px;padding:12px 16px;font-size:.8rem;color:#9db2d0;margin-top:18px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">Jhut<span>Pass</span></div>
+    <div class="links">
+      <a href="#problem">Problem</a>
+      <a href="#solution">Solution</a>
+      <a href="#demo">Live Demo</a>
+      <a href="#business">Business</a>
+      <a href="#impact">Impact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header>
+  <div class="wrap">
+    <div class="kicker">Trust infrastructure for circular manufacturing · Bangladesh</div>
+    <h1>Every kilogram of <em>jhut</em>, accounted for.</h1>
+    <p class="hero-sub">Bangladesh's garment factories generate <b>330,000–500,000 tonnes</b> of
+    cutting waste every year — and only <b>5–7%</b> is recycled domestically. JhutPass adds what the
+    jhut economy is missing: a grading standard, a network of optimally-sited sorting hubs, and
+    digital certificates that make every kilogram traceable, tradeable, and ready for the EU's
+    Digital Product Passport era.</p>
+    <a class="cta" href="#demo">Try the live demo</a>
+    <a class="cta ghost" href="#solution">How it works</a>
+
+    <div class="stats">
+      <div class="stat"><b>330–500k t</b><span>jhut generated per year (GIZ study)</span></div>
+      <div class="stat"><b>5–7%</b><span>domestically recycled today</span></div>
+      <div class="stat"><b>$4B / yr</b><span>value potential (BGMEA estimate)</span></div>
+      <div class="stat"><b>2027–28</b><span>EU Digital Product Passport for textiles</span></div>
+      <div class="src">Sources: GIZ / RMG Bangladesh (Sep 2025); BGMEA via The Daily Star; European Commission ESPR (Reg. 2024/1781).</div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ PROBLEM ============ -->
+<section id="problem">
+  <div class="wrap">
+    <div class="kicker">The problem</div>
+    <h2>A $4 billion stream is flowing out of the country unverified</h2>
+    <p class="sub">Jhut — pre-consumer garment waste — is not scarce; certainty about it is.
+    No grading standard, no chain of custody, no certificates. Factories can't prove what they
+    wasted, recyclers can't prove what they bought, and buyers can't verify anything.</p>
+
+    <div class="flow">
+      <div class="fnode f1"><b>330–500k t</b><small>generated / year<br>(4,000+ factories)</small></div>
+      <div class="arrow">➜</div>
+      <div class="fnode f1"><b>5–7%</b><small>recycled in Bangladesh<br>(18–24k t capacity)</small></div>
+      <div class="arrow">➜</div>
+      <div class="fnode f2"><b>&gt;55%</b><small>exported RAW —<br>value captured abroad</small></div>
+      <div class="arrow">➜</div>
+      <div class="fnode f3"><b>&lt;5%</b><small>upcycled; rest downcycled,<br>burned or landfilled</small></div>
+    </div>
+
+    <div class="grid g3" style="margin-top:26px">
+      <div class="card"><h3>📉 Price blindness</h3><p class="sub" style="font-size:.92rem">Ungraded jhut sells at
+        low-band prices because buyers price in quality risk. Graded, certified lots earn premiums.</p></div>
+      <div class="card"><h3>🚫 Compliance wall</h3><p class="sub" style="font-size:.92rem">From ~2027 the EU DPP makes
+        verified material data a market-access condition for textiles. Unverifiable waste = unverifiable recycled content.</p></div>
+      <div class="card"><h3>👥 Invisible workforce</h3><p class="sub" style="font-size:.92rem">The informal collection-sorting
+        chain has no contracts, IDs, or finance access — and formal recycling risks displacing it (Circular Economy &amp; Sustainability, 2026).</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOLUTION ============ -->
+<section id="solution" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="kicker">The solution</div>
+    <h2>Four layers of trust — standards, hubs, certificates, analytics</h2>
+    <p class="sub">JhutPass is not another marketplace. Marketplaces list waste; we make waste
+    <b>legible</b>. We are the trust layer the whole market trades on.</p>
+
+    <div class="card" style="margin-top:26px">
+      <div class="layer"><div class="lnum">4</div><div>
+        <h3>Compliance &amp; analytics</h3>
+        <p>DPP-ready certificates, buyer ESG audit reports, and cluster-level waste-flow dashboards — the "national jhut database" recommended by GIZ, running privately from day one.</p></div></div>
+      <div class="layer"><div class="lnum">3</div><div>
+        <h3>Market liquidation</h3>
+        <p>Certified bales flow to domestic recyclers and spinners — interoperating with existing marketplaces and brand-driven trackers rather than competing with them.</p></div></div>
+      <div class="layer"><div class="lnum">2</div><div>
+        <h3>Physical network — "Pass Hubs"</h3>
+        <p>Micro-hubs sited by p-median optimization over factory clusters (weighted average factory→hub distance ≈ 13 km in our network model). Existing informal yards convert as franchisees — the informal chain becomes the formal chain.</p></div></div>
+      <div class="layer"><div class="lnum">1</div><div>
+        <h3>Standards &amp; capture</h3>
+        <p>The Bangladesh Fiber Grade scale (BF-1…BF-5): a published grading rubric, a low-cost physical kit, and a mobile app that registers waste points, weights, photos, and chain-of-custody at the source.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEMO ============ -->
+<section id="demo">
+  <div class="wrap">
+    <div class="kicker">Live prototype</div>
+    <h2>Demo dashboard — simulate a factory, grade a lot, issue a certificate</h2>
+    <p class="sub">Working prototype of the JhutPass decision layer. Numbers below use the same
+    conservative assumptions as our Monte Carlo simulation (20,000 trials).</p>
+
+    <div class="grid g2 demo-panel">
+      <!-- simulator -->
+      <div class="card">
+        <h3>① Factory waste &amp; recovery simulator</h3>
+        <label>Annual fabric input: <span id="v_fab" style="color:var(--txt)"></span> tonnes</label>
+        <input type="range" id="fabric" min="200" max="5000" step="50" value="1200">
+        <label>Cutting waste rate (industry est. 10–20%): <span id="v_waste" style="color:var(--txt)"></span>%</label>
+        <input type="range" id="waste" min="8" max="22" step="1" value="15">
+        <label>Share of waste sorted &amp; routed through JhutPass hubs: <span id="v_cap" style="color:var(--txt)"></span>%</label>
+        <input type="range" id="capture" min="0" max="100" step="5" value="70">
+        <div class="bars">
+          <div class="barcol"><div class="bar" id="b_before" style="background:#475569;height:40%"></div><div class="barlab">Status quo<br>value (BDT)</div></div>
+          <div class="barcol"><div class="bar" id="b_after" style="background:var(--amber);height:60%"></div><div class="barlab">With JhutPass<br>value (BDT)</div></div>
+          <div class="barcol"><div class="bar" id="b_delta" style="background:var(--green);height:20%"></div><div class="barlab">Annual gain<br>(BDT)</div></div>
+        </div>
+        <div class="simout">
+          <div class="kv"><span>Jhut generated / year</span><b id="o_gen">—</b></div>
+          <div class="kv"><span>Through JhutPass (graded)</span><b id="o_cap">—</b></div>
+          <div class="kv"><span>Value, status quo (unsorted ≈ 25 BDT/kg)</span><b id="o_v0">—</b></div>
+          <div class="kv"><span>Value, graded mix (≈ 31.9 BDT/kg avg, net of fees)</span><b id="o_v1">—</b></div>
+          <div class="kv"><span><b>Annual value gain</b></span><b class="pos" id="o_gain">—</b></div>
+          <div class="kv"><span>Certificates issued / year</span><b id="o_certs">—</b></div>
+        </div>
+        <p class="src">Grade-mix weighted price 31.9 BDT/kg from BF-1…BF-5 mix (55/42/30/18/7 BDT/kg at
+        14/26/30/20/10%) minus BDT 2.9/kg JhutPass fees. Unsorted price band 20–30 BDT/kg (illustrative).</p>
+      </div>
+
+      <!-- hub map + grading -->
+      <div>
+        <div class="card">
+          <h3>② Hub network (p-median, k=8)</h3>
+          <svg id="hubmap" viewBox="0 0 560 420" role="img" aria-label="Illustrative hub network map"></svg>
+          <div class="maplegend">
+            <span><span class="dot" style="background:#3b82f6"></span>factory cluster (size = waste share)</span>
+            <span><span class="dot" style="background:#f59e0b"></span>JhutPass hub</span>
+            <span><span class="dot" style="background:#64748b"></span>assignment</span>
+          </div>
+          <p class="src">Illustrative network model — clusters represent real production geographies
+          (Gazipur, Savar–Ashulia, Narayanganj, Chattogram…); weighted avg factory→hub distance ≈ 13 km.</p>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <h3>③ BF grading scale — click a grade</h3>
+          <div class="grid" style="grid-template-columns:repeat(5,1fr);gap:8px" id="gradeRow"></div>
+          <div class="grade-detail" id="gradeDetail">Select a grade to see its specification.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- certificate -->
+    <div class="card demo-panel">
+      <h3>④ Certificate engine — issue a demo JhutPass certificate</h3>
+      <div class="grid g4" style="margin-top:10px">
+        <div><label>Factory (alias)</label><input type="text" id="c_factory" value="RMG-GZP-0142"></div>
+        <div><label>Lot mass (kg)</label><input type="text" id="c_mass" value="250"></div>
+        <div><label>Grade</label>
+          <select id="c_grade">
+            <option>BF-1</option><option selected>BF-2</option><option>BF-3</option><option>BF-4</option><option>BF-5</option>
+          </select></div>
+        <div><label>Hub</label>
+          <select id="c_hub"><option>Gazipur</option><option>Savar-Ashulia</option><option>Narayanganj</option><option>Chattogram</option></select></div>
+      </div>
+      <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" onclick="issueCert()">Issue certificate</button>
+        <button class="btn ghost" onclick="downloadCert()">Download PNG</button>
+      </div>
+      <canvas id="certCanvas" width="1280" height="720"></canvas>
+      <p class="src">Demo certificate rendered client-side for illustration — not a production credential.
+      Production certificates are mass-balance based and verifiable against hub audit records.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BUSINESS ============ -->
+<section id="business" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="kicker">Business model</div>
+    <h2>Fee-per-kilogram economics with a compliance moat</h2>
+    <div class="grid g3" style="margin-top:24px">
+      <div class="card"><h3>Grading &amp; handling</h3><p class="sub" style="font-size:.92rem">BDT 1.5/kg
+        (≈0.4–0.6% of bale value). Hub executes, JhutPass scores.</p></div>
+      <div class="card"><h3>Certificates</h3><p class="sub" style="font-size:.92rem">BDT 500 per certified lot.
+        The audit-saving + premium-capture instrument.</p></div>
+      <div class="card"><h3>SaaS &amp; analytics</h3><p class="sub" style="font-size:.92rem">BDT 2,000/mo factory
+        waste ledger; buyer &amp; partner dashboards at $250–500/mo.</p></div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3>Year-1 per-hub Monte Carlo (20,000 trials)</h3>
+      <table>
+        <tr><th>Metric</th><th style="text-align:right">Value</th></tr>
+        <tr><td>Profit P10 / P50 / P90</td><td class="num">+0.08M / +0.99M / +1.18M BDT</td></tr>
+        <tr><td>Probability of profitable year</td><td class="num">92% (15% adoption-stall scenario modeled)</td></tr>
+        <tr><td>Throughput P50</td><td class="num">≈1,710 t graded/yr</td></tr>
+        <tr><td>Certificates P50</td><td class="num">≈4,370 /yr</td></tr>
+        <tr><td>Hub conversion cost (one-off)</td><td class="num">BDT 0.4M</td></tr>
+      </table>
+      <p class="src">Full assumptions in the project simulation pack (simulation/hub_economics.py). Fees are
+      0.4–0.6% of bale value — priced to be invisible next to the 10–25 BDT/kg grading premium.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IMPACT ============ -->
+<section id="impact">
+  <div class="wrap">
+    <div class="kicker">Impact</div>
+    <h2>Conservative five-year scenarios</h2>
+    <div class="card">
+      <table>
+        <tr><th>Year</th><th>Hubs</th><th style="text-align:right">Tonnes graded/yr</th><th style="text-align:right">% of national stream</th><th style="text-align:right">Value retained (M USD/yr)</th><th style="text-align:right">Formalized jobs</th></tr>
+        <tr><td>Y1</td><td>3</td><td class="num">4,500</td><td class="num">1.1%</td><td class="num">0.35</td><td class="num">29</td></tr>
+        <tr><td>Y2</td><td>8</td><td class="num">12,000</td><td class="num">2.9%</td><td class="num">0.92</td><td class="num">78</td></tr>
+        <tr><td>Y3</td><td>16</td><td class="num">24,000</td><td class="num">5.8%</td><td class="num">1.85</td><td class="num">156</td></tr>
+        <tr><td>Y4</td><td>28</td><td class="num">42,000</td><td class="num">10.1%</td><td class="num">3.23</td><td class="num">274</td></tr>
+        <tr><td>Y5</td><td>45</td><td class="num">67,500</td><td class="num">16.3%</td><td class="num">5.19</td><td class="num">441</td></tr>
+      </table>
+      <p class="src">Value retained = graded/certified domestic price premium over raw-export price (illustrative
+      differential, BDT→USD ≈ 117). Environmental effect is reported as tonnes diverted from raw export,
+      open burning and landfill; South Asia accounts for 37% of global open-burning textile emissions
+      (Environ. Sci. &amp; Pollution Research, 2026). We do not invent CO₂-per-kg factors.</p>
+    </div>
+    <div class="foot-note">
+      <b>Design principle:</b> the 2026 literature (Circular Economy &amp; Sustainability,
+      DOI 10.1007/s43615-026-00844-z) warns that formal recycling can displace informal waste
+      livelihoods — "green value appropriation". JhutPass is built the other way: existing informal
+      yards become franchisees, collectors get worker IDs and formal per-kg rates. The informal chain
+      <i>becomes</i> the formal chain.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="logo" style="font-size:1rem">Jhut<span>Pass</span></div>
+    <p>Prototype demo · Dhaka / Sylhet, Bangladesh · Data sources: GIZ (2025) via RMG Bangladesh;
+    BGMEA; The Daily Star; Dhaka Tribune; European Commission (ESPR, Reg. 2024/1781);
+    Circular Economy &amp; Sustainability (2026); Environ. Sci. &amp; Pollution Research (2026).</p>
+  </div>
+</footer>
+
+<script>
+/* ================= simulator ================= */
+const GRADE_PRICE=[55,42,30,18,7], GRADE_MIX=[0.14,0.26,0.30,0.20,0.10];
+const AVG_GRADED = GRADE_PRICE.reduce((s,p,i)=>s+p*GRADE_MIX[i],0);      // 33.4
+const FEE = 2.9;                                                          // BDT/kg all-in
+const UNSORTED = 25;                                                      // BDT/kg
+const fmt = n => n.toLocaleString('en-US',{maximumFractionDigits:0});
+
+function sim(){
+  const fab=+fabric.value, w=+waste.value, cap=+capture.value;
+  v_fab.textContent=fab.toLocaleString(); v_waste.textContent=w; v_cap.textContent=cap;
+  const gen=fab*1000*w/100;
+  const capped=gen*cap/100;
+  const v0=gen*UNSORTED;
+  const v1=capped*(AVG_GRADED-FEE)+(gen-capped)*UNSORTED;
+  const gain=v1-v0;
+  o_gen.textContent=fmt(gen)+' kg';
+  o_cap.textContent=fmt(capped)+' kg';
+  o_v0.textContent='BDT '+fmt(v0);
+  o_v1.textContent='BDT '+fmt(v1);
+  o_gain.textContent='BDT '+fmt(gain);
+  o_certs.textContent=fmt(Math.round(capped/250*0.75));
+  const max=Math.max(v0,v1,gain,1);
+  b_before.style.height=(v0/max*100)+'%';
+  b_after.style.height=(v1/max*100)+'%';
+  b_delta.style.height=(gain/max*100)+'%';
+}
+['fabric','waste','capture'].forEach(id=>document.getElementById(id).addEventListener('input',sim));
+sim();
+
+/* ================= hub map ================= */
+const CLUSTERS=[
+  {n:"Gazipur",x:150,y:120,w:.20,hub:1},{n:"Savar-Ashulia",x:70,y:112,w:.16,hub:1},
+  {n:"Narayanganj",x:160,y:262,w:.12,hub:1},{n:"Rupganj",x:205,y:222,w:.07,hub:0},
+  {n:"Kaliganj",x:196,y:78,w:.05,hub:0},{n:"Sreepur",x:128,y:38,w:.04,hub:0},
+  {n:"Mymensingh",x:186,y:14,w:.05,hub:1},{n:"Dhaka E",x:118,y:176,w:.06,hub:0},
+  {n:"Chattogram",x:474,y:300,w:.09,hub:1},{n:"Cumilla",x:368,y:242,w:.05,hub:1},
+  {n:"Khulna",x:34,y:352,w:.03,hub:1},{n:"Jamalpur",x:64,y:22,w:.03,hub:1},
+  {n:"Faridpur",x:36,y:230,w:.02,hub:0},{n:"Tangail",x:76,y:64,w:.03,hub:0}
+];
+const ASSIGN={ "Rupganj":"Narayanganj","Kaliganj":"Gazipur","Sreepur":"Gazipur","Dhaka E":"Gazipur",
+  "Faridpur":"Savar-Ashulia","Tangail":"Savar-Ashulia"};
+(function drawMap(){
+  const svg=document.getElementById('hubmap'); let s='';
+  CLUSTERS.forEach(c=>{
+    const t=ASSIGN[c.n]; if(!t)return;
+    const h=CLUSTERS.find(k=>k.n===t);
+    s+=`<line x1="${c.x}" y1="${c.y}" x2="${h.x}" y2="${h.y}" stroke="#475569" stroke-width="1" opacity=".6"/>`;
+  });
+  CLUSTERS.forEach(c=>{
+    const r=8+Math.sqrt(c.w)*34;
+    s+=`<circle cx="${c.x}" cy="${c.y}" r="${r}" fill="rgba(59,130,246,.18)" stroke="#3b82f6" stroke-width="1.4"/>`;
+    s+=`<text x="${c.x}" y="${c.y-r-5}" font-size="10" fill="#94a3b8" text-anchor="middle">${c.n}</text>`;
+    if(c.hub) s+=`<path d="M ${c.x} ${c.y-11} L ${c.x+3.2} ${c.y-3.5} L ${c.x+11} ${c.y-3.5} L ${c.x+5} ${c.y+1.5} L ${c.x+7} ${c.y+9.5} L ${c.x} ${c.y+5} L ${c.x-7} ${c.y+9.5} L ${c.x-5} ${c.y+1.5} L ${c.x-11} ${c.y-3.5} L ${c.x-3.2} ${c.y-3.5} Z" fill="#f59e0b" stroke="#78350f" stroke-width="1"/>`;
+  });
+  svg.innerHTML=s;
+})();
+
+/* ================= grades ================= */
+const GRADES={
+ "BF-1":{c:"g1",t:"100% cotton, white/light, clean knit-woven offcuts. Yarn-grade feedstock; highest value.",p:"≈ BDT 55/kg"},
+ "BF-2":{c:"g2",t:"Cotton-dominant, light contamination, mixed colors. Mechanical recycling grade.",p:"≈ BDT 42/kg"},
+ "BF-3":{c:"g3",t:"Cotton-blend with elastane/poly. Open-end spinning, wadding, nonwovens.",p:"≈ BDT 30/kg"},
+ "BF-4":{c:"g4",t:"Mixed fiber, heavier contamination. Downcycle: mats, insulation, yarns for rugs.",p:"≈ BDT 18/kg"},
+ "BF-5":{c:"g5",t:"Contaminated/moist/mixed unusables. Energy recovery or controlled disposal.",p:"≈ BDT 7/kg"}
+};
+(function(){
+  const row=document.getElementById('gradeRow');
+  Object.keys(GRADES).forEach((g,i)=>{
+    const d=document.createElement('div');
+    d.className='card grade'+(i===1?' sel':'');
+    d.innerHTML=`<b class="g ${GRADES[g].c}">${g}</b><br><span style="font-size:.72rem;color:var(--mut)">${GRADES[g].p}</span>`;
+    d.onclick=()=>{document.querySelectorAll('.grade').forEach(e=>e.classList.remove('sel'));
+      d.classList.add('sel');
+      document.getElementById('gradeDetail').innerHTML=`<b class="${GRADES[g].c}">${g}</b> — ${GRADES[g].t} <i>(${GRADES[g].p})</i>`;};
+    row.appendChild(d);
+  });
+  document.getElementById('gradeDetail').innerHTML=`<b class="${GRADES['BF-2'].c}">BF-2</b> — ${GRADES['BF-2'].t} <i>(${GRADES['BF-2'].p})</i>`;
+})();
+
+/* ================= certificate ================= */
+let certData=null;
+function hash32(str){let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619);}return (h>>>0).toString(16).padStart(8,'0');}
+function pseudoQR(ctx,x,y,size,seedStr){
+  const n=21,cell=size/n; let seed=parseInt(hash32(seedStr),16);
+  const rnd=()=>{seed^=seed<<13;seed^=seed>>>17;seed^=seed<<5;seed>>>=0;return seed/4294967296;};
+  ctx.fillStyle='#0b1220'; ctx.fillRect(x-6,y-6,size+12,size+12);
+  ctx.fillStyle='#e2e8f0';
+  for(let i=0;i<n;i++)for(let j=0;j<n;j++){
+    const finder=(i<7&&j<7)||(i>n-8&&j<7)||(i<7&&j>n-8);
+    if(finder)continue;
+    if(rnd()>0.52)ctx.fillRect(x+i*cell,y+j*cell,cell*0.92,cell*0.92);
+  }
+  const eye=(ex,ey)=>{ctx.fillStyle='#e2e8f0';ctx.fillRect(x+ex,y+ey,cell*7,cell*7);
+    ctx.fillStyle='#0b1220';ctx.fillRect(x+ex+cell,y+ey+cell,cell*5,cell*5);
+    ctx.fillStyle='#e2e8f0';ctx.fillRect(x+ex+cell*2,y+ey+cell*2,cell*3,cell*3);};
+  eye(0,0);eye(cell*(n-7),0);eye(0,cell*(n-7));
+}
+function issueCert(){
+  const f=document.getElementById('c_factory').value||'FACTORY';
+  const m=parseFloat(document.getElementById('c_mass').value)||0;
+  const g=document.getElementById('c_grade').value;
+  const h=document.getElementById('c_hub').value;
+  const id='JPC-2026-'+hash32(f+m+g+h+Date.now()).slice(0,6).toUpperCase();
+  const code=hash32(id+f+m+g+h)+hash32(h+f+g+m+id);
+  certData={f,m,g,h,id,code,date:new Date().toISOString().slice(0,10)};
+  const c=document.getElementById('certCanvas'),ctx=c.getContext('2d');
+  ctx.fillStyle='#f8fafc';ctx.fillRect(0,0,1280,720);
+  ctx.fillStyle='#0b1220';ctx.fillRect(0,0,1280,10);ctx.fillRect(0,710,1280,10);
+  ctx.fillStyle='#0b1220';ctx.font='800 54px "Segoe UI",Arial';ctx.fillText('Jhut',60,110);
+  const w1=ctx.measureText('Jhut').width;
+  ctx.fillStyle='#b45309';ctx.fillText('Pass',60+w1,110);
+  ctx.fillStyle='#64748b';ctx.font='400 24px "Segoe UI",Arial';
+  ctx.fillText('Certificate of Graded Textile Waste — Chain of Custody',60,152);
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(60,180);ctx.lineTo(1220,180);ctx.stroke();
+  ctx.fillStyle='#0b1220';ctx.font='700 30px "Segoe UI",Arial';
+  ctx.fillText('Certificate ID: '+id,60,240);
+  ctx.font='400 26px "Segoe UI",Arial';
+  const rows=[['Factory (alias)',f],['Hub',h+' Pass Hub'],['Grade',g],['Net mass',m.toFixed(0)+' kg'],
+    ['Issue date',certData.date],['Standard','Bangladesh Fiber Grade (BF) v0.9']];
+  rows.forEach((r,i)=>{const y=300+i*54;
+    ctx.fillStyle='#64748b';ctx.fillText(r[0],60,y);
+    ctx.fillStyle='#0b1220';ctx.font='600 26px "Segoe UI",Arial';ctx.fillText(String(r[1]),460,y);
+    ctx.font='400 26px "Segoe UI",Arial';});
+  ctx.fillStyle='#64748b';ctx.font='400 20px "Segoe UI",Arial';
+  ctx.fillText('Mass-balance certificate. Verifiable against hub audit records. Demo rendering.',60,640);
+  ctx.fillText('Integrity code: '+code.slice(0,32),60,672);
+  pseudoQR(ctx,980,240,200,code);
+  ctx.fillStyle='#64748b';ctx.font='400 18px "Segoe UI",Arial';
+  ctx.fillText('Scan to verify (demo)',1005,470);
+}
+function downloadCert(){
+  if(!certData)issueCert();
+  const a=document.createElement('a');
+  a.download=certData.id+'.png';
+  a.href=document.getElementById('certCanvas').toDataURL('image/png');
+  a.click();
+}
+issueCert();
+</script>
+</body>
+</html>
